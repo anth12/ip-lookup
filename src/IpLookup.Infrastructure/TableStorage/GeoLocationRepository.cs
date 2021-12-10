@@ -3,6 +3,7 @@ using Azure.Data.Tables;
 using IpLookup.Domain;
 using IpLookup.Infrastructure.TableStorage.Entities;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Threading.Tasks;
 
 namespace IpLookup.Infrastructure.TableStorage
@@ -11,6 +12,8 @@ namespace IpLookup.Infrastructure.TableStorage
     {
         private readonly TableClient _tableClient;
         private readonly IMemoryCache _memoryCache;
+
+        private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(10);
         
         public GeoLocationRepository(TableClient tableClient, IMemoryCache memoryCache)
         {
@@ -33,7 +36,7 @@ namespace IpLookup.Infrastructure.TableStorage
             });
 
             var cacheKey = BuildMemoryCacheKey(ipAddress);
-            _memoryCache.Set(cacheKey, location);
+            _memoryCache.Set(cacheKey, location, _cacheDuration);
         }
 
         public async Task<Location> GetLocationAsync(string ipAddress)
@@ -58,7 +61,7 @@ namespace IpLookup.Infrastructure.TableStorage
 
             location = MapGeoLocation(entity);
 
-            _memoryCache.Set(cacheKey, location);
+            _memoryCache.Set(cacheKey, location, _cacheDuration);
 
             return location;
         }
