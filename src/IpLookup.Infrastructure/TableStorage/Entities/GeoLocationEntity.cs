@@ -16,7 +16,7 @@ namespace IpLookup.Infrastructure.TableStorage.Entities
         public double Longitude { get; set; }
         public double Latitude { get; set; }
 
-        public double TimezoneOffset { get; set; }
+        public int TimezoneOffset { get; set; }
 
 
         public DateTimeOffset? Timestamp { get; set; }

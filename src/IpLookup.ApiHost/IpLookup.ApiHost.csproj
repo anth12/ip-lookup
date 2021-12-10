@@ -2,10 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>e8993a1c-6f52-4356-9837-95f94338f0c5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IpLookup.Application\IpLookup.Application.csproj" />
+    <ProjectReference Include="..\IpLookup.Infrastructure\IpLookup.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
