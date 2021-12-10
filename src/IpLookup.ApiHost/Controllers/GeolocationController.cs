@@ -1,7 +1,7 @@
 ﻿using IpLookup.Application;
-using IpLookup.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace IpLookup.ApiHost.Controllers
@@ -20,9 +20,14 @@ namespace IpLookup.ApiHost.Controllers
         }
 
         [HttpGet]
-        public Task<Location> Get(string ipAddress)
+        public async Task<IActionResult> Get(string ip)
         {
-            return _geoLocationService.GetLocationFromIpAddress(ipAddress);
+            if (!IPAddress.TryParse(ip, out var ipAddress))
+                return BadRequest($"'{ip}' is not a valid IP address.");
+            
+            var result = await _geoLocationService.GetLocationFromIpAddress(ipAddress.ToString());
+
+            return Ok(result);
         }
     }
 }
