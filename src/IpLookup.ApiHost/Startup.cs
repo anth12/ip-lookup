@@ -1,3 +1,4 @@
+using IpLookup.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,8 @@ namespace IpLookup.ApiHost
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IpLookup.ApiHost", Version = "v1" });
             });
+            services.AddMemoryCache();
+            services.AddInfrastructure(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
