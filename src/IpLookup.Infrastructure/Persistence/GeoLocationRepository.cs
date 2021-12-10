@@ -79,6 +79,5 @@ namespace IpLookup.Infrastructure.Persistence
 
         private string BuildMemoryCacheKey(string ipAddress)
             => $"GeoLocation:{ipAddress}";
-
     }
 }

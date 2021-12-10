@@ -2,7 +2,7 @@
 
 namespace IpLookup.Infrastructure.Api.Models
 {
-    internal class Location
+    internal class LocationResponse
     {
         [JsonPropertyName("ip")]
         public string Ip { get; set; }

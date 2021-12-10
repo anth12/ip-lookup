@@ -3,6 +3,8 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Json;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace IpLookup.Infrastructure.Api
 {
@@ -23,14 +25,34 @@ namespace IpLookup.Infrastructure.Api
         {
             var requestUri = $"{_endpoint}?ip={ipAddress}&apiKey={_apiKey}";
 
-            var response = await _httpClient.GetFromJsonAsync<Models.Location>(requestUri);
+            var response = await _httpClient.GetAsync(requestUri);
+
+            if(response.StatusCode == HttpStatusCode.OK)
+            {
+                var result = await HandleSuccessResponse(response);
+                return result;
+            }
+
+            if (response.StatusCode == HttpStatusCode.Locked)
+            {
+                var validation = await response.Content.ReadFromJsonAsync<Models.ValidationResponse>();
+                throw new ValidationException(validation.Message);
+            }
+            
+            var responseMessage = await response.Content.ReadAsStringAsync();
+            throw new ApiException(response.StatusCode, responseMessage);
+        }
+
+        private static async Task<Location> HandleSuccessResponse(HttpResponseMessage response)
+        {
+            var payload = await response.Content.ReadFromJsonAsync<Models.LocationResponse>();
 
             return new Location(
-                city: response.City,
-                country: response.CountryName,
-                continent: response.ContinentName,
-                coordinate: new GeoCoordinate(response.Latitude, response.Longitude),
-                timezoneOffset: response.TimeZone.Offset
+                city: payload.City,
+                country: payload.CountryName,
+                continent: payload.ContinentName,
+                coordinate: new GeoCoordinate(payload.Latitude, payload.Longitude),
+                timezoneOffset: payload.TimeZone.Offset
             );
         }
 
