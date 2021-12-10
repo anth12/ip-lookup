@@ -1,17 +1,11 @@
+using IpLookup.Application;
 using IpLookup.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IpLookup.ApiHost
 {
@@ -33,7 +27,10 @@ namespace IpLookup.ApiHost
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IpLookup.ApiHost", Version = "v1" });
             });
+
             services.AddMemoryCache();
+
+            services.AddApplication();
             services.AddInfrastructure(Configuration);
         }
 
@@ -59,4 +56,5 @@ namespace IpLookup.ApiHost
             });
         }
     }
+
 }

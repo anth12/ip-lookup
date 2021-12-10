@@ -3,7 +3,7 @@ namespace IpLookup.Domain
 {
     public class Location
     {
-        public Location(string city, string country, string continent, GeoCoordinate coordinate, double timezoneOffset)
+        public Location(string city, string country, string continent, GeoCoordinate coordinate, int timezoneOffset)
         {
             City = city;
             Country = country;
@@ -18,6 +18,6 @@ namespace IpLookup.Domain
 
         public GeoCoordinate Coordinate { get; }
 
-        public double TimezoneOffset { get; }
+        public int TimezoneOffset { get; }
     }
 }
