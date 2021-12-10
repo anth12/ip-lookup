@@ -1,12 +1,12 @@
 ﻿using Azure;
 using Azure.Data.Tables;
 using IpLookup.Domain;
-using IpLookup.Infrastructure.TableStorage.Entities;
+using IpLookup.Infrastructure.Persistence.Entities;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Threading.Tasks;
 
-namespace IpLookup.Infrastructure.TableStorage
+namespace IpLookup.Infrastructure.Persistence
 {
     internal class GeoLocationRepository : IGeoLocationRepository
     {
@@ -14,14 +14,14 @@ namespace IpLookup.Infrastructure.TableStorage
         private readonly IMemoryCache _memoryCache;
 
         private readonly TimeSpan _cacheDuration = TimeSpan.FromMinutes(10);
-        
+
         public GeoLocationRepository(TableClient tableClient, IMemoryCache memoryCache)
         {
             _tableClient = tableClient;
             _memoryCache = memoryCache;
         }
 
-        public async Task AddLocationAsync(string ipAddress, Location location)
+        public async Task AddAsync(string ipAddress, Location location)
         {
             await _tableClient.AddEntityAsync(new GeoLocationEntity
             {
@@ -39,7 +39,7 @@ namespace IpLookup.Infrastructure.TableStorage
             _memoryCache.Set(cacheKey, location, _cacheDuration);
         }
 
-        public async Task<Location> GetLocationAsync(string ipAddress)
+        public async Task<Location> GetAsync(string ipAddress)
         {
             var cacheKey = BuildMemoryCacheKey(ipAddress);
 
@@ -47,11 +47,11 @@ namespace IpLookup.Infrastructure.TableStorage
                 return location;
 
             Response<GeoLocationEntity> entity;
-            try 
-            { 
+            try
+            {
                 entity = await _tableClient.GetEntityAsync<GeoLocationEntity>(ipAddress, ipAddress);
             }
-            catch(RequestFailedException ex) when (ex.Status == 404)
+            catch (RequestFailedException ex) when (ex.Status == 404)
             {
                 return null;
             }
@@ -66,7 +66,7 @@ namespace IpLookup.Infrastructure.TableStorage
             return location;
         }
 
-        private static Location MapGeoLocation(Azure.Response<GeoLocationEntity> entity)
+        private static Location MapGeoLocation(Response<GeoLocationEntity> entity)
         {
             return new Location(
                 city: entity.Value.City,
