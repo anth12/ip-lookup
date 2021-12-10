@@ -1,5 +1,6 @@
 ﻿using IpLookup.Domain;
-using IpLookup.Infrastructure.TableStorage;
+using IpLookup.Infrastructure.Api;
+using IpLookup.Infrastructure.Persistence;
 using System.Threading.Tasks;
 
 namespace IpLookup.Application
@@ -7,23 +8,24 @@ namespace IpLookup.Application
     internal class GeoLocationService : IGeoLocationService
     {
         private readonly IGeoLocationRepository _geoLocationRepository;
-
-        public GeoLocationService(IGeoLocationRepository geoLocationRepository)
+        private readonly IGeoLocationApi _geoLocationApi;
+        
+        public GeoLocationService(IGeoLocationRepository geoLocationRepository, IGeoLocationApi geoLocationApi)
         {
             _geoLocationRepository = geoLocationRepository;
+            _geoLocationApi = geoLocationApi;
         }
 
         public async Task<Location> GetLocationFromIpAddress(string ipAddress)
         {
-            var location = await _geoLocationRepository.GetLocationAsync(ipAddress);
+            var location = await _geoLocationRepository.GetAsync(ipAddress);
 
             if(location != null)
                 return location;
 
-            // TODO fetch from API
-            location = new Location("test", "", "", new GeoCoordinate(1, 2), 0);
+            location = await _geoLocationApi.GetByIpAddress(ipAddress);
 
-            await _geoLocationRepository.AddLocationAsync(ipAddress, location);
+            await _geoLocationRepository.AddAsync(ipAddress, location);
 
             return location;
         }

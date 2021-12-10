@@ -1,7 +1,8 @@
 ﻿using Azure.Data.Tables;
-using IpLookup.Infrastructure.TableStorage;
+using IpLookup.Infrastructure.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace IpLookup.Infrastructure
 {
@@ -9,10 +10,15 @@ namespace IpLookup.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("CosmosTableApi");
-            services.AddSingleton(s => new TableClient(connectionString, "Locations"));
+            services.AddSingleton(s => new TableClient(configuration.GetConnectionString("CosmosTableApi"), "Locations"));
 
             services.AddSingleton<IGeoLocationRepository, GeoLocationRepository>();
+
+            services.AddSingleton<IGeoLocationApi, GeoLocationApi>(s => new GeoLocationApi(
+                endpoint: configuration["IpGeoLocation:Endpoint"],
+                apiKey: configuration["IpGeoLocation:ApiKey"],
+                httpClient: new HttpClient()
+            ));
 
             return services;
         }
