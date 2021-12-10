@@ -1,5 +1,6 @@
 ﻿using Azure.Data.Tables;
 using IpLookup.Infrastructure.Api;
+using IpLookup.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;

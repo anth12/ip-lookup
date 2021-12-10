@@ -2,7 +2,7 @@
 using Azure.Data.Tables;
 using System;
 
-namespace IpLookup.Infrastructure.TableStorage.Entities
+namespace IpLookup.Infrastructure.Persistence.Entities
 {
     internal class GeoLocationEntity : ITableEntity
     {
