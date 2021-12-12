@@ -20,7 +20,7 @@ namespace IpLookup.Application
             _geoLocationApi = geoLocationApi;
         }
 
-        public async Task<Location> GetLocationFromIpAddress(string ipAddress)
+        public async Task<Location> GetLocationFromIpAddressAsync(string ipAddress)
         {
             var location = await _geoLocationRepository.GetAsync(ipAddress);
 
@@ -29,7 +29,7 @@ namespace IpLookup.Application
 
             try
             {
-                location = await _geoLocationApi.GetByIpAddress(ipAddress);
+                location = await _geoLocationApi.GetByIpAddressAsync(ipAddress);
             }
             catch(Exception ex)
             {

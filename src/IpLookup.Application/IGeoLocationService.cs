@@ -5,6 +5,6 @@ namespace IpLookup.Application
 {
     public interface IGeoLocationService
     {
-        Task<Location> GetLocationFromIpAddress(string ipAddress);
+        Task<Location> GetLocationFromIpAddressAsync(string ipAddress);
     }
 }

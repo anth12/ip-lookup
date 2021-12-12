@@ -27,7 +27,7 @@ namespace IpLookup.ApiHost.Controllers
                 return BadRequest($"'{ip}' is not a valid IP address.");
             try
             {
-                var result = await _geoLocationService.GetLocationFromIpAddress(ipAddress.ToString());
+                var result = await _geoLocationService.GetLocationFromIpAddressAsync(ipAddress.ToString());
                 
                 return Ok(result);
             }

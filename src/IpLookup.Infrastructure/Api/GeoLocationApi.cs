@@ -21,7 +21,7 @@ namespace IpLookup.Infrastructure.Api
             _httpClient = httpClient;
         }
 
-        public async Task<Location> GetByIpAddress(string ipAddress)
+        public async Task<Location> GetByIpAddressAsync(string ipAddress)
         {
             var requestUri = $"{_endpoint}?ip={ipAddress}&apiKey={_apiKey}";
 
