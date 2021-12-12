@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpLookup.Application", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpLookup.Infrastructure", "src\IpLookup.Infrastructure\IpLookup.Infrastructure.csproj", "{EF332F9E-4AB8-4938-8277-9CBB8482853F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IpLookup.Domain", "src\IpLookup.Domain\IpLookup.Domain.csproj", "{6DFE3531-CB0A-4CFB-85DB-985BA033B98E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpLookup.Domain", "src\IpLookup.Domain\IpLookup.Domain.csproj", "{6DFE3531-CB0A-4CFB-85DB-985BA033B98E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D68F2139-E882-4CF2-94BE-DC72DD067399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IpLookup.Application.UnitTests", "tests\IpLookup.Application.UnitTests\IpLookup.Application.UnitTests.csproj", "{A4E6AB67-038A-49EB-A2B9-D5683E13E949}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IpLookup.Application.UnitTests", "tests\IpLookup.Application.UnitTests\IpLookup.Application.UnitTests.csproj", "{A4E6AB67-038A-49EB-A2B9-D5683E13E949}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IpLookup.Application.IntegrationTests", "tests\IpLookup.Application.IntegrationTests\IpLookup.Application.IntegrationTests.csproj", "{1DCFF1C2-427E-4AF3-8D8B-9F40C6FEC006}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,12 +43,17 @@ Global
 		{A4E6AB67-038A-49EB-A2B9-D5683E13E949}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4E6AB67-038A-49EB-A2B9-D5683E13E949}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4E6AB67-038A-49EB-A2B9-D5683E13E949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DCFF1C2-427E-4AF3-8D8B-9F40C6FEC006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DCFF1C2-427E-4AF3-8D8B-9F40C6FEC006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DCFF1C2-427E-4AF3-8D8B-9F40C6FEC006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DCFF1C2-427E-4AF3-8D8B-9F40C6FEC006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A4E6AB67-038A-49EB-A2B9-D5683E13E949} = {D68F2139-E882-4CF2-94BE-DC72DD067399}
+		{1DCFF1C2-427E-4AF3-8D8B-9F40C6FEC006} = {D68F2139-E882-4CF2-94BE-DC72DD067399}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E928D470-841A-45D7-ABEC-0424FA6ED84D}

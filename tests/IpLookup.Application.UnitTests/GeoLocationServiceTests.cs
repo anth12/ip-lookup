@@ -59,8 +59,8 @@ namespace IpLookup.Application.UnitTests
                     It.IsAny<EventId>(),
                     It.IsAny<It.IsAnyType>(),
                     It.IsAny<ApiException>(),
-                    It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true))
-            ).Verifiable();
+                    It.IsAny<Func<It.IsAnyType, Exception, string>>()
+            )).Verifiable();
 
             // Act
             var exception = Assert.ThrowsAsync<ApiException>(() =>
