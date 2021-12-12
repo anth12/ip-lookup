@@ -17,15 +17,15 @@ namespace IpLookup.Application.UnitTests
         private Mock<IGeoLocationApi> _apiMock;
         private IGeoLocationService _geoLocationService;
 
-        private const string _ipAddressMock = "192.16.155.0";
-        private Location _locationMock = new Location("mock-city", "mock-country", "mock-continent", new(1, 2), 3);
+        private const string IpAddressMock = "192.16.155.0";
+        private readonly Location _locationMock = new ("mock-city", "mock-country", "mock-continent", new(1, 2), 3);
 
         [SetUp]
         public void SetUp()
         {
-            _loggerMock = new(MockBehavior.Strict);
-            _repositoryMock = new(MockBehavior.Strict);
-            _apiMock = new(MockBehavior.Strict);
+            _loggerMock = new Mock<ILogger<GeoLocationService>>(MockBehavior.Strict);
+            _repositoryMock = new Mock<IGeoLocationRepository>(MockBehavior.Strict);
+            _apiMock = new Mock<IGeoLocationApi>(MockBehavior.Strict);
 
             _geoLocationService = new GeoLocationService(_loggerMock.Object, _repositoryMock.Object, _apiMock.Object);
         }
@@ -34,11 +34,11 @@ namespace IpLookup.Application.UnitTests
         public async Task GetLocationFromIpAddressAsync_GivenPersistedValue_ThenReturns()
         {
             // Arrange
-            _repositoryMock.Setup(r => r.GetAsync(It.Is<string>(s => s == _ipAddressMock)))
+            _repositoryMock.Setup(r => r.GetAsync(It.Is<string>(s => s == IpAddressMock)))
                 .ReturnsAsync(_locationMock);
 
             // Act
-            var result = await _geoLocationService.GetLocationFromIpAddressAsync(_ipAddressMock);
+            var result = await _geoLocationService.GetLocationFromIpAddressAsync(IpAddressMock);
 
             // Assert
             Assert.AreEqual(_locationMock, result);
@@ -48,10 +48,10 @@ namespace IpLookup.Application.UnitTests
         public void GetLocationFromIpAddressAsync_GivenApiError_ThenLogAndThrow()
         {
             // Arrange
-            _repositoryMock.Setup(r => r.GetAsync(It.Is<string>(s => s == _ipAddressMock)))
+            _repositoryMock.Setup(r => r.GetAsync(It.Is<string>(s => s == IpAddressMock)))
                 .ReturnsAsync((Location)null);
 
-            _apiMock.Setup(a => a.GetByIpAddressAsync(It.Is<string>(s => s == _ipAddressMock)))
+            _apiMock.Setup(a => a.GetByIpAddressAsync(It.Is<string>(s => s == IpAddressMock)))
                 .Throws(new ApiException(HttpStatusCode.InternalServerError, "mock-response"));
 
             _loggerMock.Setup(l => l.Log(
@@ -64,7 +64,7 @@ namespace IpLookup.Application.UnitTests
 
             // Act
             var exception = Assert.ThrowsAsync<ApiException>(() =>
-                _geoLocationService.GetLocationFromIpAddressAsync(_ipAddressMock));
+                _geoLocationService.GetLocationFromIpAddressAsync(IpAddressMock));
 
             // Assert
             Assert.AreEqual(HttpStatusCode.InternalServerError, exception.StatusCode);
@@ -76,21 +76,21 @@ namespace IpLookup.Application.UnitTests
         public async Task GetLocationFromIpAddressAsync_GivenFetchedFromApi_ThenPersist()
         {
             // Arrange
-            _repositoryMock.Setup(r => r.GetAsync(It.Is<string>(s => s == _ipAddressMock)))
+            _repositoryMock.Setup(r => r.GetAsync(It.Is<string>(s => s == IpAddressMock)))
                 .ReturnsAsync((Location)null);
 
-            _apiMock.Setup(a => a.GetByIpAddressAsync(It.Is<string>(s => s == _ipAddressMock)))
+            _apiMock.Setup(a => a.GetByIpAddressAsync(It.Is<string>(s => s == IpAddressMock)))
                 .ReturnsAsync(_locationMock);
 
             _repositoryMock.Setup(r => r.AddAsync(
-                It.Is<string>(s => s == _ipAddressMock),
+                It.Is<string>(s => s == IpAddressMock),
                 It.Is<Location>(l => l.City == _locationMock.City
                                     && l.Country == _locationMock.Country)))
                 .Returns(Task.CompletedTask)
                 .Verifiable();
 
             // Act
-            var result = await _geoLocationService.GetLocationFromIpAddressAsync(_ipAddressMock);
+            var result = await _geoLocationService.GetLocationFromIpAddressAsync(IpAddressMock);
 
             // Assert
             Assert.AreEqual(_locationMock, result);

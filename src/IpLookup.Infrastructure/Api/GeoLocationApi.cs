@@ -10,8 +10,8 @@ namespace IpLookup.Infrastructure.Api
 {
     internal class GeoLocationApi : IGeoLocationApi, IDisposable
     {
-        public readonly string _endpoint;
-        public readonly string _apiKey;
+        private readonly string _endpoint;
+        private readonly string _apiKey;
         private readonly HttpClient _httpClient;
 
         public GeoLocationApi(string endpoint, string apiKey, HttpClient httpClient)

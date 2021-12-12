@@ -1,6 +1,5 @@
 ﻿using IpLookup.Application;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
@@ -11,12 +10,10 @@ namespace IpLookup.ApiHost.Controllers
     [Route("[controller]")]
     public class GeolocationController : ControllerBase
     {
-        private readonly ILogger<GeolocationController> _logger;
         private readonly IGeoLocationService _geoLocationService;
 
-        public GeolocationController(ILogger<GeolocationController> logger, IGeoLocationService geoLocationService)
+        public GeolocationController(IGeoLocationService geoLocationService)
         {
-            _logger = logger;
             _geoLocationService = geoLocationService;
         }
 

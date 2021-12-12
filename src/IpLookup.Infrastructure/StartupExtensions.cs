@@ -11,11 +11,11 @@ namespace IpLookup.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(s => new TableClient(configuration.GetConnectionString("CosmosTableApi"), "Locations"));
+            services.AddSingleton(_ => new TableClient(configuration.GetConnectionString("CosmosTableApi"), "Locations"));
 
             services.AddSingleton<IGeoLocationRepository, GeoLocationRepository>();
 
-            services.AddSingleton<IGeoLocationApi, GeoLocationApi>(s => new GeoLocationApi(
+            services.AddSingleton<IGeoLocationApi, GeoLocationApi>(_ => new GeoLocationApi(
                 endpoint: configuration["IpGeoLocation:Endpoint"],
                 apiKey: configuration["IpGeoLocation:ApiKey"],
                 httpClient: new HttpClient()
